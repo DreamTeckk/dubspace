@@ -177,4 +177,16 @@ function shoot(entity){
   bullets.push(bullet);
   bullet = new SimpleBullet([8,8],[player.position[0] + player.dimension[0] - 8 ,player.position[1]],25);
   bullets.push(bullet);
+  bullet = new TurnBullet([8,8],[player.position[0] + player.dimension[0] - 8 ,player.position[1]],25,15);
+  bullets.push(bullet);
+  bullet = new TurnBullet([8,8],[player.position[0] ,player.position[1]],25,-15);
+  bullets.push(bullet);
+  bullet = new TurnBullet([8,8],[player.position[0] + player.dimension[0] - 8 ,player.position[1]],25,5);
+  bullets.push(bullet);
+  bullet = new TurnBullet([8,8],[player.position[0] ,player.position[1]],25,-5);
+  bullets.push(bullet);
+  bullet = new TurnBullet([8,8],[player.position[0] + player.dimension[0] - 8 ,player.position[1]],25,20);
+  bullets.push(bullet);
+  bullet = new TurnBullet([8,8],[player.position[0] ,player.position[1]],25,-20);
+  bullets.push(bullet);
 }
