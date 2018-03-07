@@ -14,7 +14,7 @@ var bullets = [];
 var ennemies = []
 
 //Création de l'objet joueur.
-var player = new Character([64,64],[0,0],"#ff0000",3);
+var player = new Character([40,40],[0,0],"#ff0000",3);
 
 var ennemie = new Ennemie([64,64],[0,0]);
 ennemies.push(ennemie);
@@ -54,7 +54,7 @@ CONFIGURATION ---  AUDIO
   var bufferLength = equalizer.frequencyBinCount;
   var dataArray = new Uint8Array(bufferLength);
 
-  var barWidth = (cvW / 2 / bufferLength) * 2;
+  var barWidth = ((cvW * 2)/ bufferLength);
   var barHeight;
 
   /*********************
@@ -101,22 +101,24 @@ EVENT ---  TIR DU JOUEUR
     ctx.fillRect(0,0,cvW,cvH)
 
     //affichage de l'égalisateur
-    offsetR = cvW;
-    offsetL = 0;
+    offsetR = cvH / 2;
+    offsetL = cvH / 2;
 
     equalizer.getByteFrequencyData(dataArray);
     for (var i = 0; i < bufferLength; i++) {
-      barHeight = dataArray[i] * 4;
+      barHeight = dataArray[i] - 100;
 
-      var r = barHeight;
-      var g = barHeight - 100;
+      var r = barHeight * 2;
+      var g = barHeight - 100 ;
       var b = 50;
-      ctx.fillStyle = "rgb("+ r +"," + g +","+ b +")";
-      ctx.fillRect(offsetR, cvH - barHeight, barWidth, barHeight);
-      ctx.fillRect(offsetL, cvH - barHeight, barWidth, barHeight);
+      ctx.fillStyle = "rgba("+ r +"," + g +","+ b +",.7)";
+      ctx.fillRect(cvW - barHeight, offsetR, barHeight, barWidth);
+      ctx.fillRect(cvW - barHeight, offsetL, barHeight, barWidth);
+      ctx.fillRect(0, offsetR, barHeight, barWidth);
+      ctx.fillRect(0, offsetL, barHeight, barWidth);
 
-      offsetR -= barWidth + 1;
-      offsetL += barWidth + 1;
+      offsetR += barWidth + 1;
+      offsetL -= barWidth + 1;
     }
 
     //Affichage du joueur
@@ -164,13 +166,13 @@ EVENT ---  TIR DU JOUEUR
 //Fonction d'update appelée en boucle.
 
 function audioConf(audio){
-  audio.src = "song2.mp3";
+  audio.src = "Musics/song3.mp3";
   audio.load();
   audio.play();
 }
 
 function shoot(entity){
   entity.reloadStatus = 0;
-  bullet = new SimpleBullet([8,8],[player.position[0] + player.dimension[0]/2,player.position[1]],10);
+  bullet = new SimpleBullet([8,8],[player.position[0] + player.dimension[0]/2,player.position[1]],15);
   bullets.push(bullet);
 }
