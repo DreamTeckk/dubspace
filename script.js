@@ -14,7 +14,7 @@ var bullets = [];
 var ennemies = []
 
 //Création de l'objet joueur.
-var player = new Character([40,40],[0,0],"#ff0000",3);
+var player = new Character([40,40],[0,0],"#ff0000",0.5);
 
 var ennemie = new Ennemie([64,64],[0,0]);
 ennemies.push(ennemie);
@@ -110,7 +110,7 @@ EVENT ---  TIR DU JOUEUR
 
       var r = barHeight * 2;
       var g = barHeight - 100 ;
-      var b = 50;
+      var b = 100;
       ctx.fillStyle = "rgba("+ r +"," + g +","+ b +",.7)";
       ctx.fillRect(cvW - barHeight, offsetR, barHeight, barWidth);
       ctx.fillRect(cvW - barHeight, offsetL, barHeight, barWidth);
@@ -166,13 +166,15 @@ EVENT ---  TIR DU JOUEUR
 //Fonction d'update appelée en boucle.
 
 function audioConf(audio){
-  audio.src = "Musics/song3.mp3";
+  audio.src = "Musics/song2.mp3";
   audio.load();
   audio.play();
 }
 
 function shoot(entity){
   entity.reloadStatus = 0;
-  bullet = new SimpleBullet([8,8],[player.position[0] + player.dimension[0]/2,player.position[1]],15);
+  bullet = new SimpleBullet([8,8],[player.position[0] ,player.position[1]],25);
+  bullets.push(bullet);
+  bullet = new SimpleBullet([8,8],[player.position[0] + player.dimension[0] - 8 ,player.position[1]],25);
   bullets.push(bullet);
 }
