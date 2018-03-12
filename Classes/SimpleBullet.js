@@ -4,8 +4,12 @@ function SimpleBullet(dimension,position,speed) {
   this.speed = speed;
 
   this.show = function(){
-    ctx.fillStyle = "#fff";
-    ctx.fillRect(this.position[0],this.position[1],this.dimension[0],this.dimension[1]);
+    ctx.drawImage(
+      bulletImg,
+      this.position[0],
+      this.position[1],
+      this.dimension[0],
+      this.dimension[1]);
   }
 
   this.move = function(){

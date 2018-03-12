@@ -14,7 +14,7 @@ var bullets = [];
 var ennemies = []
 
 //Création de l'objet joueur.
-var player = new Character([40,40],[0,0],"#ff0000",0.5);
+var player = new Character([40,40],[0,0],15,3);
 
 var ennemie = new Ennemie([64,64],[0,0]);
 ennemies.push(ennemie);
@@ -31,6 +31,7 @@ ennemies.push(ennemie);
 $(document).ready(function(){
   //On ajoute les spritesheets correspondant aux élément du jeu
   var playerImg = document.getElementById('playerImg');
+  var bulletImg = document.getElementById('bulletImg');
   //taille du canvas
   cvH = $('canvas').height(), cvW = $('canvas').width();
 
@@ -44,14 +45,14 @@ CONFIGURATION ---  AUDIO
   var audioCtx = new AudioContext();
 
   //Création de l'analyser
-  var equalizerSrc = audioCtx.createMediaElementSource(audio);
-  var equalizer = audioCtx.createAnalyser();
+  var analyserSrc = audioCtx.createMediaElementSource(audio);
+  var analyser = audioCtx.createAnalyser();
 
-  equalizerSrc.connect(equalizer);
-  equalizer.connect(audioCtx.destination);
+  analyserSrc.connect(analyser);
+  analyser.connect(audioCtx.destination);
 
-  equalizer.fftSize = 512;
-  var bufferLength = equalizer.frequencyBinCount;
+  analyser.fftSize = 512;
+  var bufferLength = analyser.frequencyBinCount;
   var dataArray = new Uint8Array(bufferLength);
 
   var barWidth = ((cvW * 2)/ bufferLength);
@@ -95,16 +96,21 @@ EVENT ---  TIR DU JOUEUR
   //On dessine une première animation
   requestAnimationFrame(drawGame);
 
+  /*********************
+        DRAWGAME
+  *********************/
+
   function drawGame(){
 
     ctx.fillStyle = "#000";
     ctx.fillRect(0,0,cvW,cvH)
 
-    //affichage de l'égalisateur
+    //affichage de l'analyser
+
     offsetR = cvH / 2;
     offsetL = cvH / 2;
 
-    equalizer.getByteFrequencyData(dataArray);
+    analyser.getByteFrequencyData(dataArray);
     for (var i = 0; i < bufferLength; i++) {
       barHeight = dataArray[i] - 100;
 
@@ -138,7 +144,6 @@ EVENT ---  TIR DU JOUEUR
         }
       }
       if(bullets[i].position[1] <= 0 || bullets[i].toDestroy == true){
-        console.log(bullets[i].toDestroy);
         bullets.splice(i, 1);
       }
     }
@@ -166,27 +171,15 @@ EVENT ---  TIR DU JOUEUR
 //Fonction d'update appelée en boucle.
 
 function audioConf(audio){
-  audio.src = "Musics/song2.mp3";
+  audio.src = "Musics/song4.mp3";
   audio.load();
   audio.play();
 }
 
 function shoot(entity){
   entity.reloadStatus = 0;
-  bullet = new SimpleBullet([8,8],[player.position[0] ,player.position[1]],25);
+  bullet = new SimpleBullet([8,8],[player.position[0] ,player.position[1]],15);
   bullets.push(bullet);
-  bullet = new SimpleBullet([8,8],[player.position[0] + player.dimension[0] - 8 ,player.position[1]],25);
-  bullets.push(bullet);
-  bullet = new TurnBullet([8,8],[player.position[0] + player.dimension[0] - 8 ,player.position[1]],25,15);
-  bullets.push(bullet);
-  bullet = new TurnBullet([8,8],[player.position[0] ,player.position[1]],25,-15);
-  bullets.push(bullet);
-  bullet = new TurnBullet([8,8],[player.position[0] + player.dimension[0] - 8 ,player.position[1]],25,5);
-  bullets.push(bullet);
-  bullet = new TurnBullet([8,8],[player.position[0] ,player.position[1]],25,-5);
-  bullets.push(bullet);
-  bullet = new TurnBullet([8,8],[player.position[0] + player.dimension[0] - 8 ,player.position[1]],25,20);
-  bullets.push(bullet);
-  bullet = new TurnBullet([8,8],[player.position[0] ,player.position[1]],25,-20);
+  bullet = new SimpleBullet([8,8],[player.position[0] + player.dimension[0] - 8 ,player.position[1]],15);
   bullets.push(bullet);
 }
