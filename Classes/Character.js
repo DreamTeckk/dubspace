@@ -33,7 +33,6 @@ function Character(dimension,position,reloadSpeed,animationDuration){
       this.position[1],
       this.dimension[0],
       this.dimension[1]);
-    console.log(this.frameIndex);
     this.animationStatus++;
   }
 

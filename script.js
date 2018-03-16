@@ -8,30 +8,40 @@ var mapW = 12, mapH = 10;
 var currentSecond = 0, frameCount = 0, framesLastSecond = 0;
 var lastFrameTime = 0;
 
+var analyser, analyserSrc, audioCtx, bufferLength, dataArray, barWidth, barHeight;
+
+var actualScene;
+var game;
+
 var isShooting = false;
 
 var bullets = [];
 var ennemies = []
 
 //Création de l'objet joueur.
-var player = new Character([40,40],[0,0],15,3);
+var player = new Character([40,40],[150,150],10,3);
 
-var ennemie = new Ennemie([64,64],[0,0]);
+//Création des sons
+var explosionSound = new Audio('Sounds/explosion1.wav');
+var explosionSound2 = new Audio('Sounds/explosion2.wav');
+
+var ennemie = new Spear([0,-41],4);
 ennemies.push(ennemie);
-var ennemie = new Ennemie([64,64],[65,0]);
+var ennemie = new Spear([64,-41],4);
 ennemies.push(ennemie);
-var ennemie = new Ennemie([64,64],[130,0]);
+var ennemie = new Spear([128,-41],4);
 ennemies.push(ennemie);
-var ennemie = new Ennemie([64,64],[195,0]);
-ennemies.push(ennemie);
-var ennemie = new Ennemie([64,64],[260,0]);
-ennemies.push(ennemie);
+
+
 
 
 $(document).ready(function(){
+
   //On ajoute les spritesheets correspondant aux élément du jeu
   var playerImg = document.getElementById('playerImg');
+  var ennemie1Img = document.getElementById('spear1Img');
   var bulletImg = document.getElementById('bulletImg');
+
   //taille du canvas
   cvH = $('canvas').height(), cvW = $('canvas').width();
 
@@ -42,21 +52,28 @@ CONFIGURATION ---  AUDIO
   *********************/
   var audio = document.getElementById('audio');
   audioConf(audio);
-  var audioCtx = new AudioContext();
+  audioCtx = new AudioContext();
 
   //Création de l'analyser
-  var analyserSrc = audioCtx.createMediaElementSource(audio);
-  var analyser = audioCtx.createAnalyser();
+  analyserSrc = audioCtx.createMediaElementSource(audio);
+  analyser = audioCtx.createAnalyser();
 
   analyserSrc.connect(analyser);
   analyser.connect(audioCtx.destination);
 
   analyser.fftSize = 512;
-  var bufferLength = analyser.frequencyBinCount;
-  var dataArray = new Uint8Array(bufferLength);
+  bufferLength = analyser.frequencyBinCount;
+  dataArray = new Uint8Array(bufferLength);
 
-  var barWidth = ((cvW * 2)/ bufferLength);
-  var barHeight;
+  barWidth = ((cvW * 3)/ bufferLength);
+
+
+  /*********************
+  CREATION DES SCENES
+  *********************/
+  game = new Game();
+  actualScene = game;
+
 
   /*********************
 EVENT ---  MOUVEMENTS DU JOUEUR
@@ -93,74 +110,25 @@ EVENT ---  TIR DU JOUEUR
     isShooting = false;
   })
 
-  //On dessine une première animation
-  requestAnimationFrame(drawGame);
-
-  /*********************
-        DRAWGAME
-  *********************/
-
-  function drawGame(){
-
-    ctx.fillStyle = "#000";
-    ctx.fillRect(0,0,cvW,cvH)
-
-    //affichage de l'analyser
-
-    offsetR = cvH / 2;
-    offsetL = cvH / 2;
-
-    analyser.getByteFrequencyData(dataArray);
-    for (var i = 0; i < bufferLength; i++) {
-      barHeight = dataArray[i] - 100;
-
-      var r = barHeight * 2;
-      var g = barHeight - 100 ;
-      var b = 100;
-      ctx.fillStyle = "rgba("+ r +"," + g +","+ b +",.7)";
-      ctx.fillRect(cvW - barHeight, offsetR, barHeight, barWidth);
-      ctx.fillRect(cvW - barHeight, offsetL, barHeight, barWidth);
-      ctx.fillRect(0, offsetR, barHeight, barWidth);
-      ctx.fillRect(0, offsetL, barHeight, barWidth);
-
-      offsetR += barWidth + 1;
-      offsetL -= barWidth + 1;
+  function keydown(e){
+    if(e.key === 'p'){
+      pauseGame();
     }
-
-    //Affichage du joueur
-    player.show();
-
-    for(let i = 0; i < ennemies.length; i++){
-      ennemies[i].show();
-    }
-
-    //Affichage des projectile
-    for(let i = 0; i < bullets.length; i++){
-      bullets[i].show();
-      bullets[i].move();
-      for(let j = 0; j <  ennemies.length; j++){
-        if(bullets[i].hits(ennemies[j])){
-          ennemies.splice(j, 1);
-        }
-      }
-      if(bullets[i].position[1] <= 0 || bullets[i].toDestroy == true){
-        bullets.splice(i, 1);
-      }
-    }
-
-    //On fait recharger le tir joueur
-    player.reload();
-
-    //On regarde si le joueur tire
-    if(isShooting){
-      if(player.reloaded){
-        shoot(player);
-      }
-    }
-    //On dessine une nouvelle fois l'animation
-    requestAnimationFrame(drawGame);
   }
+
+  //On dessine une première animation
+  requestAnimationFrame(drawScene);
 })
+
+/*********************
+-------DRAWGAME-------
+*********************/
+function drawScene(){
+
+  actualScene.draw();
+  //On dessine une nouvelle fois l'animation
+  requestAnimationFrame(drawScene);
+}
 
 /********************
 ---------------------
@@ -171,9 +139,10 @@ EVENT ---  TIR DU JOUEUR
 //Fonction d'update appelée en boucle.
 
 function audioConf(audio){
-  audio.src = "Musics/song4.mp3";
+  audio.src = "Musics/song2.mp3";
   audio.load();
   audio.play();
+  audio.volume = 0.7;
 }
 
 function shoot(entity){
@@ -182,4 +151,7 @@ function shoot(entity){
   bullets.push(bullet);
   bullet = new SimpleBullet([8,8],[player.position[0] + player.dimension[0] - 8 ,player.position[1]],15);
   bullets.push(bullet);
+  let shotSound = new Audio('Sounds/shot1.wav');
+  shotSound.play();
+  shotSound.volume = 0.8;
 }
