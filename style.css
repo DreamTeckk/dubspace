@@ -1,3 +1,9 @@
+@font-face {
+
+  font-family: 'BNJinx';
+  src: url('BNJinx.ttf');
+}
+
 body{
   padding: 0;
   background-color: #000;

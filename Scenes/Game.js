@@ -9,13 +9,6 @@ function Game(){
       ctx.fillStyle = "#000";
       ctx.fillRect(0,0,cvW,cvH)
 
-    /***************************
-      AFFICHAGE DU SCORE
-    ***************************/
-      ctx.font = "20px Arial";
-      ctx.fillStyle = "#FFF"
-      ctx.fillText("SCORE : " + player.score,cvW / 2 - 50, 20);
-
 
     /***************************
       AFFICHAGE DE L'ANALYSER
@@ -97,6 +90,13 @@ function Game(){
           shoot(player);
         }
       }
+
+    /***************************
+      AFFICHAGE DU SCORE
+    ***************************/
+      ctx.font = "30px BNJinx";
+      ctx.fillStyle = "#FFF"
+      ctx.fillText("SCORE : " + player.score,cvW / 2 - 60, 20);
   }
 
 }

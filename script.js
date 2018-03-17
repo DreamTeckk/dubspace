@@ -11,6 +11,9 @@ var lastFrameTime = 0;
 var audio;
 var analyser, analyserSrc, audioCtx, bufferLength, dataArray, barWidth, barHeight;
 
+var htpBtn,htpBtnHover;
+
+
 var actualScene;
 var game;
 
@@ -62,8 +65,13 @@ $(document).ready(function(){
   var ennemie1Img = document.getElementById('spear1Img');
   var bulletImg = document.getElementById('bulletImg');
 
+  //On récupère les différentes images du jeu
+  htpBtn = document.getElementById('htp');
+  htpBtnHover = document.getElementById('htpBtnHover');
+
   //taille du canvas
-  cvH = $('canvas').height(), cvW = $('canvas').width();
+  cvH = $('canvas').height();
+  cvW = $('canvas').width();
 
   ctx = document.getElementById('game').getContext('2d');
 
@@ -132,7 +140,6 @@ EVENT ---  TIR DU JOUEUR
   })
 
   $(document).keydown(function(e){
-    console.log("pressed");
     if(e.key === 'p' && actualScene != pauseScene){
       actualScene = pauseScene;
     }else if(e.key === 'p' && actualScene === pauseScene){
