@@ -13,6 +13,7 @@ function Character(dimension,position,reloadSpeed,animationDuration){
   this.animationDuration = animationDuration;
   this.animationStatus = 0;
   this.reloaded = true;
+  this.score = 0;
 
   this.show = function(){
 

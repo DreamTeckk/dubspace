@@ -8,6 +8,7 @@ var mapW = 12, mapH = 10;
 var currentSecond = 0, frameCount = 0, framesLastSecond = 0;
 var lastFrameTime = 0;
 
+var audio;
 var analyser, analyserSrc, audioCtx, bufferLength, dataArray, barWidth, barHeight;
 
 var actualScene;
@@ -19,18 +20,37 @@ var bullets = [];
 var ennemies = []
 
 //Création de l'objet joueur.
-var player = new Character([40,40],[150,150],10,3);
-
+var player = new Character([40,40],[cvW / 2, cvH - 50],10,3);
+console.log(player.score);
 //Création des sons
 var explosionSound = new Audio('Sounds/explosion1.wav');
 var explosionSound2 = new Audio('Sounds/explosion2.wav');
 
-var ennemie = new Spear([0,-41],4);
+var ennemie = new Spear([0,-41],10,2,1);
 ennemies.push(ennemie);
-var ennemie = new Spear([64,-41],4);
+var ennemie = new Spear([64,-41],10,2,1);
 ennemies.push(ennemie);
-var ennemie = new Spear([128,-41],4);
+var ennemie = new Spear([128,-41],10,2,1);
 ennemies.push(ennemie);
+var ennemie = new Spear([192,-41],10,2,1);
+ennemies.push(ennemie);
+var ennemie = new Spear([256,-41],10,2,1);
+ennemies.push(ennemie);
+var ennemie = new Spear([320,-41],10,2,1);
+ennemies.push(ennemie);
+var ennemie = new Spear([0,-80],10,2,1);
+ennemies.push(ennemie);
+var ennemie = new Spear([64,-80],10,2,1);
+ennemies.push(ennemie);
+var ennemie = new Spear([128,-80],10,2,1);
+ennemies.push(ennemie);
+var ennemie = new Spear([192,-80],10,2,1);
+ennemies.push(ennemie);
+var ennemie = new Spear([256,-80],10,2,1);
+ennemies.push(ennemie);
+var ennemie = new Spear([320,-80],10,2,1);
+ennemies.push(ennemie);
+
 
 
 
@@ -50,7 +70,7 @@ $(document).ready(function(){
   /*********************
 CONFIGURATION ---  AUDIO
   *********************/
-  var audio = document.getElementById('audio');
+  audio = document.getElementById('audio');
   audioConf(audio);
   audioCtx = new AudioContext();
 
@@ -61,7 +81,7 @@ CONFIGURATION ---  AUDIO
   analyserSrc.connect(analyser);
   analyser.connect(audioCtx.destination);
 
-  analyser.fftSize = 512;
+  analyser.fftSize = 1024;
   bufferLength = analyser.frequencyBinCount;
   dataArray = new Uint8Array(bufferLength);
 
@@ -71,8 +91,9 @@ CONFIGURATION ---  AUDIO
   /*********************
   CREATION DES SCENES
   *********************/
-  game = new Game();
-  actualScene = game;
+  gameScene = new Game();
+  pauseScene = new Pause();
+  actualScene = gameScene;
 
 
   /*********************
@@ -110,11 +131,15 @@ EVENT ---  TIR DU JOUEUR
     isShooting = false;
   })
 
-  function keydown(e){
-    if(e.key === 'p'){
-      pauseGame();
+  $(document).keydown(function(e){
+    console.log("pressed");
+    if(e.key === 'p' && actualScene != pauseScene){
+      actualScene = pauseScene;
+    }else if(e.key === 'p' && actualScene === pauseScene){
+      actualScene = gameScene;
     }
-  }
+  });
+
 
   //On dessine une première animation
   requestAnimationFrame(drawScene);
@@ -139,10 +164,10 @@ function drawScene(){
 //Fonction d'update appelée en boucle.
 
 function audioConf(audio){
-  audio.src = "Musics/song2.mp3";
+  audio.src = "Musics/The Glitch Mob - Head Full of Shadows.mp3";
   audio.load();
   audio.play();
-  audio.volume = 0.7;
+  audio.volume = 1;
 }
 
 function shoot(entity){
@@ -153,5 +178,5 @@ function shoot(entity){
   bullets.push(bullet);
   let shotSound = new Audio('Sounds/shot1.wav');
   shotSound.play();
-  shotSound.volume = 0.8;
+  shotSound.volume = 0.5;
 }

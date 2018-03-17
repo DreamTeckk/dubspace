@@ -1,6 +1,8 @@
-function Spear(position,speed){
+function Spear(position,speed,reward,health){
   this.position = position;
   this.speed = speed;
+  this.reward = reward;
+  this.health = health;
 
   this.dimension = [41,41];
 
