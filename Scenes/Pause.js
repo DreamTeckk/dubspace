@@ -7,9 +7,9 @@ function Pause(){
       if(audio.paused == false)
         audio.pause();
 
-      ctx.font = "40px Arial";
+      ctx.font = "100px BNJinx";
       ctx.fillStyle = "#FFF"
-      ctx.fillText("PAUSED",cvW / 2 - 70, cvH / 2 - 100);
+      ctx.fillText("PAUSED",cvW / 2 - 165, cvH / 2 - 100);
 
       if(hover){
         ctx.drawImage(htpBtnHover, cvW / 2 - htpBtn.width / 2, cvH / 2);
