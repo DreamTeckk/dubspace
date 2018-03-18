@@ -11,23 +11,25 @@ var lastFrameTime = 0;
 var audio;
 var analyser, analyserSrc, audioCtx, bufferLength, dataArray, barWidth, barHeight;
 
-var htpBtn,htpBtnHover;
+var htpBtn,htpBtnHover,upgardeBtn,upgradeHoverBtn;
 
 
 var actualScene;
-var game;
+var gameScene, pauseScene;
 
 var isShooting = false;
 
 var bullets = [];
-var ennemies = []
+var ennemiesBullets = [];
+var ennemies = [];
 
 //Création de l'objet joueur.
 var player = new Character([40,40],[cvW / 2, cvH - 50],10,3);
-console.log(player.score);
+
 //Création des sons
 var explosionSound = new Audio('Sounds/explosion1.wav');
 var explosionSound2 = new Audio('Sounds/explosion2.wav');
+var select1 = new Audio('Sounds/select1.wav');
 
 var ennemie = new Spear([0,-41],10,2,1);
 ennemies.push(ennemie);
@@ -54,6 +56,9 @@ ennemies.push(ennemie);
 var ennemie = new Spear([320,-80],10,2,1);
 ennemies.push(ennemie);
 
+var ennemie = new Boomer([0,0],10,10,1,2);
+ennemies.push(ennemie);
+
 
 
 
@@ -62,12 +67,15 @@ $(document).ready(function(){
 
   //On ajoute les spritesheets correspondant aux élément du jeu
   var playerImg = document.getElementById('playerImg');
-  var ennemie1Img = document.getElementById('spear1Img');
+  var spear1Img = document.getElementById('spear1Img');
+  var boomer1Img = document.getElementById('boomer1Img')
   var bulletImg = document.getElementById('bulletImg');
 
   //On récupère les différentes images du jeu
   htpBtn = document.getElementById('htp');
   htpBtnHover = document.getElementById('htpBtnHover');
+  upgradesBtn = document.getElementById('upgrades');
+  upgradesBtnHover = document.getElementById('upgradesBtnHover');
 
   //taille du canvas
   cvH = $('canvas').height();
@@ -101,56 +109,20 @@ CONFIGURATION ---  AUDIO
   *********************/
   gameScene = new Game();
   pauseScene = new Pause();
+
   actualScene = gameScene;
-
-
-  /*********************
-EVENT ---  MOUVEMENTS DU JOUEUR
-  *********************/
-  $('canvas').mousemove(function(e){
-    let lastXPos = player.position[0];
-
-    let cursorCorrectionX = (($(document).width() - $('canvas').width()) / 2) + (player.dimension[0] / 2);
-    let cursorCorrectionY = player.dimension[1] / 2;
-
-    player.position = [e.pageX - cursorCorrectionX,e.pageY - cursorCorrectionY];
-
-    let newXPos = player.position[0];
-
-    if(newXPos < lastXPos - 2){
-      player.animation = "#00ff00";
-    }else if(newXPos > lastXPos + 2){
-      player.animation = "#0000ff";
-    }else{
-      player.animation = "#ff0000";
-    }
-
-    lastXPos = newXPos;
-  })
-
-  /*********************
-EVENT ---  TIR DU JOUEUR
-  *********************/
-  $('canvas').mousedown(function(){
-    isShooting = true;
-  })
-
-  $('canvas').mouseup(function(){
-    isShooting = false;
-  })
-
-  $(document).keydown(function(e){
-    if(e.key === 'p' && actualScene != pauseScene){
-      actualScene = pauseScene;
-    }else if(e.key === 'p' && actualScene === pauseScene){
-      actualScene = gameScene;
-    }
-  });
-
 
   //On dessine une première animation
   requestAnimationFrame(drawScene);
 })
+
+$(document).keydown(function(e){
+  if(e.key === 'p' && actualScene != pauseScene){
+    actualScene = pauseScene;
+  }else if(e.key === 'p' && actualScene === pauseScene){
+    actualScene = gameScene;
+  }
+});
 
 /*********************
 -------DRAWGAME-------

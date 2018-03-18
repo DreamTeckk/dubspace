@@ -46,7 +46,7 @@ function Game(){
         if(ennemies[i].hits(player)){
           explosionSound2.play();
           explosionSound2.volume = 0.6;
-          player.dimension[0] = 0;
+          player.dimension[0] = 1;
         }
       }
 
@@ -98,5 +98,48 @@ function Game(){
       ctx.fillStyle = "#FFF"
       ctx.fillText("SCORE : " + player.score,cvW / 2 - 60, 20);
   }
+
+  /**********************************
+    EVENT ---  MOUVEMENTS DU JOUEUR
+  ***********************************/
+  $('canvas').mousemove(function(e){
+
+    if(actualScene === gameScene){
+
+      let lastXPos = player.position[0];
+
+      let cursorCorrectionX = (($(document).width() - $('canvas').width()) / 2) + (player.dimension[0] / 2);
+      let cursorCorrectionY = player.dimension[1] / 2;
+
+      player.position = [e.pageX - cursorCorrectionX,e.pageY - cursorCorrectionY];
+
+      let newXPos = player.position[0];
+
+      if(newXPos < lastXPos - 2){
+        player.animation = "#00ff00";
+      }else if(newXPos > lastXPos + 2){
+        player.animation = "#0000ff";
+      }else{
+        player.animation = "#ff0000";
+      }
+
+      lastXPos = newXPos;
+    }
+  })
+
+  /*********************
+EVENT ---  TIR DU JOUEUR
+  *********************/
+  $('canvas').mousedown(function(){
+    if(actualScene === gameScene){
+      isShooting = true;
+    }
+  })
+
+  $('canvas').mouseup(function(){
+    if(actualScene === gameScene){
+      isShooting = false;
+    }
+  })
 
 }

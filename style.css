@@ -1,7 +1,11 @@
 @font-face {
-
   font-family: 'BNJinx';
   src: url('BNJinx.ttf');
+}
+
+@font-face {
+  font-family: 'Bolster';
+  src: url('Bolster.ttf');
 }
 
 body{

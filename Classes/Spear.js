@@ -1,4 +1,5 @@
 function Spear(position,speed,reward,health){
+
   this.position = position;
   this.speed = speed;
   this.reward = reward;
@@ -23,24 +24,6 @@ function Spear(position,speed,reward,health){
       }
     }
 
-    this.move = function(){
-
-      if(this.position[0] + this.dimension[0] >= cvW){
-        this.direction = "L";
-      }else if(this.position[0] <= 0){
-        this.direction = "R"
-      }
-
-      if(this.direction === "R"){
-        this.position[0] += 1 * this.speed;
-        this.position[1] += (0.25 * this.speed) / 2 ;
-      }else{
-        this.position[0] -= 1 * this.speed;
-        this.position[1] += (0.25 * this.speed) / 2 ;
-      }
-
-    }
-
     ctx.drawImage(
       spear1Img,
       this.frameIndex * this.dimension[0],
@@ -52,6 +35,24 @@ function Spear(position,speed,reward,health){
       this.dimension[0],
       this.dimension[1]);
     this.animationStatus++;
+  }
+
+  this.move = function(){
+
+    if(this.position[0] + this.dimension[0] >= cvW){
+      this.direction = "L";
+    }else if(this.position[0] <= 0){
+      this.direction = "R"
+    }
+
+    if(this.direction === "R"){
+      this.position[0] += 1 * this.speed;
+      this.position[1] += (0.25 * this.speed) / 2 ;
+    }else{
+      this.position[0] -= 1 * this.speed;
+      this.position[1] += (0.25 * this.speed) / 2 ;
+    }
+
   }
 
   this.hits = function(entity){
