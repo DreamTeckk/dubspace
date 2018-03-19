@@ -1,8 +1,12 @@
 function Game(){
 
+    this.waveClear = false;
+
+    let wavePause = 0;
 
     this.draw = function(){
 
+      //On relance l'audio si on retrourne au jeu
       if(audio.paused == true)
         audio.play();
 
@@ -18,6 +22,7 @@ function Game(){
 
       analyser.getByteFrequencyData(dataArray);
       for (var i = 0; i < bufferLength; i++) {
+
         barHeight = dataArray[i];
 
         var r = barHeight - 100;
@@ -34,10 +39,15 @@ function Game(){
         offsetL -= barWidth + 1;
       }
 
-      //Affichage du joueur
+      /***********************
+        AFFICHAGE DU JOUEUR
+      ************************/
       player.show();
 
-      //Affichage des ennemies
+      /**************************
+        AFFICHAGE DES ENNEMIES
+      ***************************/
+
       for(let i = 0; i < ennemies.length; i++){
         ennemies[i].show();
         ennemies[i].move();
@@ -54,7 +64,9 @@ function Game(){
         }
       }
 
-      //AFFICHAGE DES PROJECTILES ALLIERS
+      /********************************
+      AFFICHAGE DES PROJECTILES ALLIERS
+      *********************************/
       for(let i = 0; i < bullets.length; i++){
         bullets[i].show();
         //console.log('show');
@@ -79,7 +91,9 @@ function Game(){
         }
       }
 
-      //AFFICHAGE DES PROJECTILES ENNEMIES
+      /************************************
+        AFFICHAGE DES PROJECTILES ENNEMIES
+      *************************************/
       for(let i = 0; i < ennemiesBullets.length; i++){
         ennemiesBullets[i].show();
         ennemiesBullets[i].move();
@@ -113,7 +127,25 @@ function Game(){
       //On regarde si le joueur tire
       if(isShooting){
         if(player.reloaded){
-          shoot(player);
+          player.shot();
+        }
+      }
+
+      /***********************
+          NOUVELLE VAGUE ?
+      ************************/
+
+      //On test si tout les ennemies sont détruits avant de lancer une nouvelle vague.
+      if(ennemies.length === 0){
+        if(!this.waveClear){
+          this.waveClear = true;
+          actualWave ++;
+        }
+        wavePause ++;
+        if(wavePause >= 180){
+          wavePause = 0;
+          this.waveClear = false;
+          this.launchWave(actualWave);
         }
       }
 
@@ -123,6 +155,19 @@ function Game(){
       ctx.font = "30px BNJinx";
       ctx.fillStyle = "#FFF"
       ctx.fillText("SCORE : " + player.score,cvW / 2 - 60, 20);
+  }
+
+  /*********************************************
+    FONCTION --- LANCEMENT D'UNE NOUVELLE VAGUE
+  **********************************************/
+
+  this.launchWave = function(wave){
+    let shift = 0;
+    for(let i = 0; i < wave; i++){
+      var ennemie = new Spear([0 + shift,-41],10,2,1);
+      ennemies.push(ennemie);
+      shift += 50;
+    }
   }
 
   /**********************************

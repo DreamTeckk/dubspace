@@ -46,4 +46,17 @@ function Character(dimension,position,reloadSpeed,animationDuration){
       this.reloaded = false;
     }
   }
+
+  this.shot = function(){
+
+    this.reloadStatus = 0;
+
+    bullet = new SimpleBullet([8,8],[player.position[0] ,player.position[1]],15);
+    bullets.push(bullet);
+    bullet = new SimpleBullet([8,8],[player.position[0] + player.dimension[0] - 8 ,player.position[1]],15);
+    bullets.push(bullet);
+    let shotSound = new Audio('Sounds/shot1.wav');
+    shotSound.play();
+    shotSound.volume = 0.5;
+  }
 }

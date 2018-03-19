@@ -17,11 +17,13 @@ var htpBtn,htpBtnHover,upgardeBtn,upgradeHoverBtn;
 var actualScene;
 var gameScene, pauseScene;
 
-var isShooting = false;
+var actualWave = 1;
 
 var bullets = [];
 var ennemiesBullets = [];
 var ennemies = [];
+
+var isShooting = false;
 
 //Création de l'objet joueur.
 var player = new Character([40,40],[cvW / 2, cvH - 50],10,3);
@@ -31,6 +33,8 @@ var explosionSound = new Audio('Sounds/explosion1.wav');
 var explosionSound2 = new Audio('Sounds/explosion2.wav');
 var select1 = new Audio('Sounds/select1.wav');
 
+
+/*
 var ennemie = new Spear([0,-41],10,2,1);
 ennemies.push(ennemie);
 var ennemie = new Spear([64,-41],10,2,1);
@@ -64,7 +68,7 @@ var ennemie = new Boomer([800,0],10,10,1,2);
 ennemies.push(ennemie);
 var ennemie = new Boomer([1100,0],10,10,1,2);
 ennemies.push(ennemie);
-
+*/
 
 
 
@@ -153,15 +157,4 @@ function audioConf(audio){
   audio.load();
   audio.play();
   audio.volume = 1;
-}
-
-function shoot(entity){
-  entity.reloadStatus = 0;
-  bullet = new SimpleBullet([8,8],[player.position[0] ,player.position[1]],15);
-  bullets.push(bullet);
-  bullet = new SimpleBullet([8,8],[player.position[0] + player.dimension[0] - 8 ,player.position[1]],15);
-  bullets.push(bullet);
-  let shotSound = new Audio('Sounds/shot1.wav');
-  shotSound.play();
-  shotSound.volume = 0.5;
 }
