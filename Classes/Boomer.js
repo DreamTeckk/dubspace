@@ -13,27 +13,36 @@ function Boomer(position,speed,reward,health,reloadSpeed){
   this.frameLine = 0;
   this.animationStatus = 0;
 
+  //Variable permettant de remettre à 0 la frame index une seule fois lors d'un tir.
+  this.startAnimation = false;
+
   let shot = false;
 
   setInterval(function(){shot = true;}, 1000 * reloadSpeed);
 
   this.show = function(){
 
+    //Si l'ennemie effectue un tir, la ligne de spritesheet change pour annimé un tire.
     if(shot){
 
-      //Si l'ennemie effectue un tir, la ligne de spritesheet change pour annimé un tire.
       this.frameLine = 1;
+
+      if(!this.startAnimation){
+        this.frameIndex = 0;
+        this.startAnimation = true;
+        bullet = new SimpleBullet([8,8],[this.position[0] + this.dimension[0] / 2 ,this.position[1] + this.dimension[1] + 5],-5);
+        bullets.push(bullet);
+      }
 
       if(this.animationStatus > this.animationDuration){
         this.animationStatus = 0;
         this.frameIndex++
         if(this.frameIndex > 4){
           shot = false;
+          this.startAnimation = false;
           this.frameIndex = 0;
         }
       }
-
-      console.log(shot);
 
       ctx.drawImage(
         boomer1Img,

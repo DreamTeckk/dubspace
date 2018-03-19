@@ -41,6 +41,7 @@ function Game(){
       for(let i = 0; i < ennemies.length; i++){
         ennemies[i].show();
         ennemies[i].move();
+        
 
         //On test si un ennemie touche le joueur
         if(ennemies[i].hits(player)){
