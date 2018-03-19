@@ -58,6 +58,12 @@ ennemies.push(ennemie);
 
 var ennemie = new Boomer([0,0],10,10,1,2);
 ennemies.push(ennemie);
+var ennemie = new Boomer([400,0],10,10,1,2);
+ennemies.push(ennemie);
+var ennemie = new Boomer([800,0],10,10,1,2);
+ennemies.push(ennemie);
+var ennemie = new Boomer([1100,0],10,10,1,2);
+ennemies.push(ennemie);
 
 
 

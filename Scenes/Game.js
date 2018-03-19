@@ -41,19 +41,23 @@ function Game(){
       for(let i = 0; i < ennemies.length; i++){
         ennemies[i].show();
         ennemies[i].move();
-        
+
 
         //On test si un ennemie touche le joueur
         if(ennemies[i].hits(player)){
-          explosionSound2.play();
-          explosionSound2.volume = 0.6;
-          player.dimension[0] = 1;
+          player.health--;
+          if(player.health <= 0){
+            explosionSound2.play();
+            explosionSound2.volume = 0.6;
+            player.dimension[0] = 1;
+          }
         }
       }
 
-      //Affichage des projectile
+      //AFFICHAGE DES PROJECTILES ALLIERS
       for(let i = 0; i < bullets.length; i++){
         bullets[i].show();
+        //console.log('show');
         bullets[i].move();
 
         //On test si un projectile touche un ennemie
@@ -72,6 +76,27 @@ function Game(){
         }
         if(bullets[i].position[1] <= 0 || bullets[i].toDestroy == true){
           bullets.splice(i, 1);
+        }
+      }
+
+      //AFFICHAGE DES PROJECTILES ENNEMIES
+      for(let i = 0; i < ennemiesBullets.length; i++){
+        ennemiesBullets[i].show();
+        ennemiesBullets[i].move();
+
+        //On test si un projectile touche le joueur
+        if(ennemiesBullets[i].hits(player)){
+          player.health -= 1;
+
+          //Si la vie du joueur tombe à 0
+          if(player.health <= 0){
+            explosionSound2.play();
+            explosionSound2.volume = 0.6;
+            player.dimension[0] = 1;
+          }
+        }
+        if(ennemiesBullets[i].position[1] >= cvH || ennemiesBullets[i].toDestroy == true){
+          ennemiesBullets.splice(i, 1);
         }
       }
 

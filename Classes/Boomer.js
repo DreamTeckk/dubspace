@@ -18,6 +18,7 @@ function Boomer(position,speed,reward,health,reloadSpeed){
 
   let shot = false;
 
+  //Le vaisseau tire automatiquement toutes les 1 sec * le temps de rechargement
   setInterval(function(){shot = true;}, 1000 * reloadSpeed);
 
   this.show = function(){
@@ -31,7 +32,7 @@ function Boomer(position,speed,reward,health,reloadSpeed){
         this.frameIndex = 0;
         this.startAnimation = true;
         bullet = new SimpleBullet([8,8],[this.position[0] + this.dimension[0] / 2 ,this.position[1] + this.dimension[1] + 5],-5);
-        bullets.push(bullet);
+        ennemiesBullets.push(bullet);
       }
 
       if(this.animationStatus > this.animationDuration){
