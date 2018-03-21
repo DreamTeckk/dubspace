@@ -69,7 +69,6 @@ function Game(){
       *********************************/
       for(let i = 0; i < bullets.length; i++){
         bullets[i].show();
-        //console.log('show');
         bullets[i].move();
 
         //On test si un projectile touche un ennemie
@@ -149,13 +148,16 @@ function Game(){
         }
       }
 
-    /***************************
-      AFFICHAGE DU SCORE
-    ***************************/
+    /************************************
+      AFFICHAGE DU SCORE ET DE LA VAGUE
+    ************************************/
       ctx.font = "30px BNJinx";
       ctx.fillStyle = "#FFF"
-      ctx.fillText("SCORE : " + player.score,cvW / 2 - 60, 20);
+      ctx.fillText("SCORE : " + player.score,cvW / 2 - 240, 20);
+      ctx.fillText("WAVE : " + actualWave, cvW / 2 + 100, 20);
   }
+
+
 
   /*********************************************
     FONCTION --- LANCEMENT D'UNE NOUVELLE VAGUE
@@ -163,11 +165,24 @@ function Game(){
 
   this.launchWave = function(wave){
     let shift = 0;
+    let cpt = 0;
     for(let i = 0; i < wave; i++){
       var ennemie = new Spear([0 + shift,-41],10,2,1);
       ennemies.push(ennemie);
       shift += 50;
     }
+    shift = 0;
+
+    let createOnce = setInterval(function(){
+      var ennemie = new Mosquito([500,-50],6,3,1)
+      ennemies.push(ennemie);
+      cpt++;
+      if(cpt >= 150){
+        clearInterval(createOnce);
+        cpt = 0;
+      }
+    },50);
+
     var ennemie = new Boomer([0,0],10,10,1,2);
     ennemies.push(ennemie);
     var ennemie = new Boomer([400,0],10,10,1,2);

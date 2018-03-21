@@ -17,7 +17,7 @@ var htpBtn,htpBtnHover,upgardeBtn,upgradeHoverBtn;
 var actualScene;
 var gameScene, pauseScene;
 
-var actualWave = 1;
+var actualWave = 0;
 
 var bullets = [];
 var ennemiesBullets = [];
@@ -26,50 +26,12 @@ var ennemies = [];
 var isShooting = false;
 
 //Création de l'objet joueur.
-var player = new Character([40,40],[cvW / 2, cvH - 50],20,3);
+var player = new Character([40,40],[cvW / 2, cvH - 50],10,1);
 
 //Création des sons
 var explosionSound = new Audio('Sounds/explosion1.wav');
 var explosionSound2 = new Audio('Sounds/explosion2.wav');
 var select1 = new Audio('Sounds/select1.wav');
-
-
-/*
-var ennemie = new Spear([0,-41],10,2,1);
-ennemies.push(ennemie);
-var ennemie = new Spear([64,-41],10,2,1);
-ennemies.push(ennemie);
-var ennemie = new Spear([128,-41],10,2,1);
-ennemies.push(ennemie);
-var ennemie = new Spear([192,-41],10,2,1);
-ennemies.push(ennemie);
-var ennemie = new Spear([256,-41],10,2,1);
-ennemies.push(ennemie);
-var ennemie = new Spear([320,-41],10,2,1);
-ennemies.push(ennemie);
-var ennemie = new Spear([0,-80],10,2,1);
-ennemies.push(ennemie);
-var ennemie = new Spear([64,-80],10,2,1);
-ennemies.push(ennemie);
-var ennemie = new Spear([128,-80],10,2,1);
-ennemies.push(ennemie);
-var ennemie = new Spear([192,-80],10,2,1);
-ennemies.push(ennemie);
-var ennemie = new Spear([256,-80],10,2,1);
-ennemies.push(ennemie);
-var ennemie = new Spear([320,-80],10,2,1);
-ennemies.push(ennemie);
-
-var ennemie = new Boomer([0,0],10,10,1,2);
-ennemies.push(ennemie);
-var ennemie = new Boomer([400,0],10,10,1,2);
-ennemies.push(ennemie);
-var ennemie = new Boomer([800,0],10,10,1,2);
-ennemies.push(ennemie);
-var ennemie = new Boomer([1100,0],10,10,1,2);
-ennemies.push(ennemie);
-*/
-
 
 
 
