@@ -26,7 +26,7 @@ var ennemies = [];
 var isShooting = false;
 
 //Création de l'objet joueur.
-var player = new Character([40,40],[cvW / 2, cvH - 50],10,3);
+var player = new Character([40,40],[cvW / 2, cvH - 50],20,3);
 
 //Création des sons
 var explosionSound = new Audio('Sounds/explosion1.wav');
