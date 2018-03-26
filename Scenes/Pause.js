@@ -10,7 +10,7 @@ function Pause(){
 
       ctx.font = "100px BNJinx";
       ctx.fillStyle = "#FFF";
-      ctx.fillText("PAUSED",cvW / 2 - 165, cvH / 2 - 100);
+      ctx.fillText("PAUSED",cvW / 2 - 165, cvH / 4 - 100);
 
       ctx.font = "30px Bolster";
       ctx.fillText("PRESS P TO RESUME",cvW / 2 - 170, cvH - 50);
@@ -64,22 +64,26 @@ function Pause(){
 
       if(actualScene === pauseScene){
 
-        //On test si l'on clique sur le bouton "Upgrades"
+        //On test si l'on clique sur le bouton "How To Play"
         if(e.pageX >= $(document).width() / 2 - 400 / 2 &&
         e.pageX <= $(document).width() / 2 + 400 / 2 &&
         e.pageY >= cvH / 2 &&
         e.pageY <= cvH / 2 + htpBtn.height){
           select1.volume = 0.4;
           select1.play();
+          actualScene = htpScene;
+          console.log(actualScene);
         }
 
-        //On test si l'on clique sur le bouston "How To Play"
+        //On test si l'on clique sur le bouston "Upgrades"
         if(e.pageX >= $(document).width() / 2 - 400 / 2 &&
         e.pageX <= $(document).width() / 2 + 400 / 2 &&
         e.pageY >= cvH / 2 + 150 &&
         e.pageY <= cvH / 2 + 150 + upgradesBtn.height){
           select1.volume = 0.4;
           select1.play();
+          actualScene = upgradesScene;
+          console.log(actualScene);
         }
       }
     })

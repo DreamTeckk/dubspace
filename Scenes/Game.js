@@ -50,7 +50,9 @@ function Game(){
 
       for(let i = 0; i < ennemies.length; i++){
         ennemies[i].show();
-        ennemies[i].move();
+        if(actualScene === gameScene){
+          ennemies[i].move();
+        }
 
 
         //On test si un ennemie touche le joueur
@@ -69,7 +71,9 @@ function Game(){
       *********************************/
       for(let i = 0; i < bullets.length; i++){
         bullets[i].show();
-        bullets[i].move();
+        if(actualScene === gameScene){
+          bullets[i].move();
+        }
 
         //On test si un projectile touche un ennemie
         for(let j = 0; j <  ennemies.length; j++){
@@ -95,7 +99,9 @@ function Game(){
       *************************************/
       for(let i = 0; i < ennemiesBullets.length; i++){
         ennemiesBullets[i].show();
-        ennemiesBullets[i].move();
+        if(actualScene === gameScene){
+          ennemiesBullets[i].move();
+        }
 
         //On test si un projectile touche le joueur
         if(ennemiesBullets[i].hits(player)){
@@ -174,10 +180,12 @@ function Game(){
     shift = 0;
 
     let createOnce = setInterval(function(){
-      var ennemie = new Mosquito([500,-50],6,3,1)
+      var ennemie = new Mosquito([500,-100],6,3,1)
+      ennemies.push(ennemie);
+      var ennemie = new Mosquito([510,-50],6,3,1)
       ennemies.push(ennemie);
       cpt++;
-      if(cpt >= 150){
+      if(cpt >= wave){
         clearInterval(createOnce);
         cpt = 0;
       }

@@ -81,6 +81,8 @@ CONFIGURATION ---  AUDIO
   *********************/
   gameScene = new Game();
   pauseScene = new Pause();
+  htpScene = new HowToPlay();
+  upgradesScene = new Upgrades();
 
   actualScene = gameScene;
 
@@ -89,9 +91,9 @@ CONFIGURATION ---  AUDIO
 })
 
 $(document).keydown(function(e){
-  if(e.key === 'p' && actualScene != pauseScene){
+  if(e.key === 'p' && actualScene === gameScene){
     actualScene = pauseScene;
-  }else if(e.key === 'p' && actualScene === pauseScene){
+  }else if(e.key === 'p' && actualScene !== gameScene){
     actualScene = gameScene;
   }
 });

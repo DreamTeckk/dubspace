@@ -16,6 +16,13 @@ function Character(dimension,position,reloadSpeed,animationDuration){
   this.score = 0;
   this.health = 1;
 
+  //Variable relative au niveau des tires
+  this.simpleBulletNbr = 1;
+  this.simpleBulletLvl = 1;
+
+  this.turnBulletNbr = 0;
+  this.turnBulleLvl = 1;
+
   this.show = function(){
 
     if(this.animationStatus > this.animationDuration){
@@ -51,10 +58,22 @@ function Character(dimension,position,reloadSpeed,animationDuration){
 
     this.reloadStatus = 0;
 
-    bullet = new SimpleBullet([8,8],[player.position[0] ,player.position[1]],15);
-    bullets.push(bullet);
-    bullet = new SimpleBullet([8,8],[player.position[0] + player.dimension[0] - 8 ,player.position[1]],15);
-    bullets.push(bullet);
+    if(this.simpleBulletNbr == 1){
+      bullet = new SimpleBullet([8,8],[player.position[0] + player.dimension[0] / 2 - 4,player.position[1]], 5 + this.simpleBulletLvl * 2);
+      bullets.push(bullet);
+    }else if(this.simpleBulletNbr === 2){
+      bullet = new SimpleBullet([8,8],[player.position[0] ,player.position[1]], 5 + this.simpleBulletLvl * 2);
+      bullets.push(bullet);
+      bullet = new SimpleBullet([8,8],[player.position[0] + player.dimension[0] - 8 ,player.position[1]], 5 + this.simpleBulletLvl * 2);
+      bullets.push(bullet);
+    }else if(this.simpleBulletNbr >= 3){
+      bullet = new SimpleBullet([8,8],[player.position[0] ,player.position[1]], 5 + this.simpleBulletLvl * 2);
+      bullets.push(bullet);
+      bullet = new SimpleBullet([8,8],[player.position[0] + player.dimension[0] / 2 - 4,player.position[1]], 5 + this.simpleBulletLvl * 2);
+      bullets.push(bullet);
+      bullet = new SimpleBullet([8,8],[player.position[0] + player.dimension[0] - 8 ,player.position[1]], 5 + this.simpleBulletLvl * 2);
+      bullets.push(bullet);
+    }
     let shotSound = new Audio('Sounds/shot1.wav');
     shotSound.play();
     shotSound.volume = 0.5;
