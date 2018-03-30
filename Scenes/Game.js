@@ -43,6 +43,7 @@ function Game(){
         AFFICHAGE DU JOUEUR
       ************************/
       player.show();
+      player.recoil();
 
       /**************************
         AFFICHAGE DES ENNEMIES
@@ -54,14 +55,18 @@ function Game(){
           ennemies[i].move();
         }
 
-
         //On test si un ennemie touche le joueur
         if(ennemies[i].hits(player)){
-          player.health--;
-          if(player.health <= 0){
-            explosionSound2.play();
-            explosionSound2.volume = 0.6;
-            player.dimension[0] = 1;
+          if(!player.hit){
+            player.health--;
+            explosionSound3.volume = 0.6;
+            explosionSound3.play();
+            if(player.health <= 0){
+              explosionSound2.play();
+              explosionSound2.volume = 0.6;
+              actualScene = gameOverScene;
+            }
+            player.hit = true;
           }
         }
       }
@@ -82,8 +87,8 @@ function Game(){
 
             //Si la vie de l'ennemie tombe à 0
             if(ennemies[j].health <= 0){
-              explosionSound.play();
               explosionSound.volume = 0.4;
+              explosionSound.play();
               player.score += ennemies[j].reward;
               ennemies.splice(j, 1);
             }
@@ -105,15 +110,20 @@ function Game(){
 
         //On test si un projectile touche le joueur
         if(ennemiesBullets[i].hits(player)){
-          player.health -= 1;
-
-          //Si la vie du joueur tombe à 0
-          if(player.health <= 0){
-            explosionSound2.play();
-            explosionSound2.volume = 0.6;
-            player.dimension[0] = 1;
+          if(!player.hit){
+            explosionSound3.volume = 0.6;
+            explosionSound3.play();
+            player.health--;
+            if(player.health <= 0){
+              explosionSound2.volume = 0.6;
+              explosionSound2.play();
+              actualScene = gameOverScene;
+            }
+            player.hit = true;
           }
         }
+
+        //Si un projectile ennemie sort du canvas.
         if(ennemiesBullets[i].position[1] >= cvH || ennemiesBullets[i].toDestroy == true){
           ennemiesBullets.splice(i, 1);
         }
@@ -161,6 +171,16 @@ function Game(){
       ctx.fillStyle = "#FFF"
       ctx.fillText("SCORE : " + player.score,cvW / 2 - 240, 20);
       ctx.fillText("WAVE : " + actualWave, cvW / 2 + 100, 20);
+
+      /*************************************
+      AFFICHAGE DES POINTS DE VIE DU JOUEUR
+      *************************************/
+      let shift = 0;
+
+      for(let i = 0; i < player.health; i++){
+        ctx.drawImage(hpHeart, cvW - 200 + shift, cvH - 100);
+        shift += 40;
+      }
   }
 
 

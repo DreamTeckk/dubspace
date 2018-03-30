@@ -10,11 +10,17 @@ function Character(dimension,position,reloadSpeed,animationDuration){
   this.reloadStatus = this.reloadSpeed;
 
   this.frameIndex = 0;
+  this.frameLine = 0;
   this.animationDuration = animationDuration;
   this.animationStatus = 0;
   this.reloaded = true;
   this.score = 0;
-  this.health = 1;
+  this.health = 3;
+
+  //Si le joueur est touché
+  this.hit = false;
+  //Temps du recoil
+  this.recoilTime = 100;
 
   //Variable relative au niveau des tires
   this.simpleBulletNbr = 1;
@@ -32,10 +38,11 @@ function Character(dimension,position,reloadSpeed,animationDuration){
         this.frameIndex = 0;
       }
     }
+
     ctx.drawImage(
       playerImg,
       this.frameIndex * this.dimension[0],
-      0,
+      this.dimension[1] * this.frameLine,
       this.dimension[0],
       this.dimension[1],
       this.position[0],
@@ -43,6 +50,18 @@ function Character(dimension,position,reloadSpeed,animationDuration){
       this.dimension[0],
       this.dimension[1]);
     this.animationStatus++;
+  }
+
+  this.recoil = function(){
+    if(this.hit){
+      this.recoilTime--;
+      this.frameLine = 1;
+    }
+    if(!this.recoilTime){
+      this.recoilTime = 100;
+      this.hit = false;
+      this.frameLine = 0;
+    }
   }
 
   this.reload = function(){

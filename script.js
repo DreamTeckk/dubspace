@@ -11,7 +11,7 @@ var lastFrameTime = 0;
 var audio;
 var analyser, analyserSrc, audioCtx, bufferLength, dataArray, barWidth, barHeight;
 
-var htpBtn,htpBtnHover,upgardeBtn,upgradeHoverBtn;
+var htpBtn,htpBtnHover,upgardeBtn,upgradeHoverBtn,hpHeart;
 
 
 var actualScene;
@@ -31,6 +31,7 @@ var player = new Character([40,40],[cvW / 2, cvH - 50],10,1);
 //Création des sons
 var explosionSound = new Audio('Sounds/explosion1.wav');
 var explosionSound2 = new Audio('Sounds/explosion2.wav');
+var explosionSound3 = new Audio('Sounds/explosion3.wav');
 var select1 = new Audio('Sounds/select1.wav');
 
 
@@ -48,6 +49,7 @@ $(document).ready(function(){
   htpBtnHover = document.getElementById('htpBtnHover');
   upgradesBtn = document.getElementById('upgrades');
   upgradesBtnHover = document.getElementById('upgradesBtnHover');
+  hpHeart = document.getElementById('hpHeart');
 
   //taille du canvas
   cvH = $('canvas').height();
@@ -83,6 +85,7 @@ CONFIGURATION ---  AUDIO
   pauseScene = new Pause();
   htpScene = new HowToPlay();
   upgradesScene = new Upgrades();
+  gameOverScene = new GameOver();
 
   actualScene = gameScene;
 
@@ -93,7 +96,7 @@ CONFIGURATION ---  AUDIO
 $(document).keydown(function(e){
   if(e.key === 'p' && actualScene === gameScene){
     actualScene = pauseScene;
-  }else if(e.key === 'p' && actualScene !== gameScene){
+  }else if(e.key === 'p' && actualScene !== gameScene && actualScene !== gameOverScene){
     actualScene = gameScene;
   }
 });
